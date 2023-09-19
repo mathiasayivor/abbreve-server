@@ -8,7 +8,14 @@ export async function translateSentence(sentence) {
   const words = sentence.split(" ");
   const definitions = await lookupAbbreviations(words);
 
+  /**
+   * @type {Array<string>}
+   */
   let unknownWords = [];
+
+  /**
+   * @type {Record<string, Array<string>>}
+   */
   const alternatives = {};
 
   for (let i = 0; i < definitions.length; i++) {
@@ -42,7 +49,7 @@ export async function translateSentence(sentence) {
 /**
  *
  * @param {Array<string>} abbreviations
- * @returns {Promise<Array<string | null>>}
+ * @returns {Promise<Array<Awaited<ReturnType<singleAbbreviation>> | null>>}
  */
 export async function lookupAbbreviations(abbreviations) {
   return await Promise.all(abbreviations.map(singleAbbreviation));
